@@ -1,0 +1,19 @@
+name: "Public IP"
+description: "Have your public IP in home assistant"
+url: "https://github.com/TheDraca/HA-Public_IP"
+version: "1.0.0"
+slug: "HA_Public_IP"
+init: false
+homeassistant_api: true 
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+options:
+  Debug: false
+  Refresh time: 30
+schema:
+  Debug: bool
+  Refresh time: int
