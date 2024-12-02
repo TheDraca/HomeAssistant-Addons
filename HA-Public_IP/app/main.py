@@ -10,11 +10,11 @@ with open("/data/options.json","r") as options:
     HA_Options=json.load(options)
 
 
-#Set debug level to debug if the UI says so, else we're on INFO
+#Set debug level to debug if the UI says so, else we're on WARNING
 if HA_Options["Debug"]:
     logging.basicConfig(level=logging.DEBUG,format='%(asctime)s %(message)s')
 else:
-    logging.basicConfig(level=logging.INFO,format='%(asctime)s %(message)s')
+    logging.basicConfig(level=logging.WARNING,format='%(asctime)s %(message)s')
 
 
 
@@ -28,6 +28,8 @@ logging.debug(HA_Options)
 #Read the Refresh Time provided to us by HA config, X60 to make it minutes
 TimeToSleep=int(HA_Options["Refresh time"])*60
 
+#Start with an empty last IP
+LastIP=""
 
 #Main Loop
 while True:
@@ -35,13 +37,20 @@ while True:
 
     if int(APIResponse.status_code) == 200:
         PublicIP = json.loads(APIResponse.text) #Json of public api in format {"ip":"1.2.3.4"}
-        PublicIP = PublicIP["ip"] # Just the IP part of the IP
+        logging.debug("Response from API: %s",str(PublicIP))
+        PublicIP = str(PublicIP["ip"]) # Just the IP part of the IP
         
-        logging.info("New IP detected, updating sensor")
-        HA_API_Response=HomeAssistant_API.UpdateSensor("ha_public_ip","ip","Public IP Address",PublicIP)
+        if PublicIP != LastIP:
+            logging.info("New IP detected, updating sensor")
+            HA_API_Response=HomeAssistant_API.UpdateSensor("ha_public_ip","ip","Public IP Address",PublicIP)
 
-        logging.debug(HA_API_Response.status_code)
-        logging.debug(HA_API_Response.text)
+            logging.debug(HA_API_Response.status_code)
+            logging.debug(HA_API_Response.text)
+
+            #Store this as the last known IP
+            LastIP = PublicIP
+        else: 
+            logging.info("IP Unchanged")
     else:
         logging.warning("Non-200 status code from ipify")
         logging.warning(APIResponse.status_code)

@@ -1,3 +1,7 @@
+## 1.0.03
+
+- Actually store LastIP addreress once it has changed
+
 ## 1.0.02
 
 - Bump version number because I forgot last time
