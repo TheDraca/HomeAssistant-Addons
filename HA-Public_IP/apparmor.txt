@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile HA_Public_IP flags=(attach_disconnected,mediate_deleted) {
+profile ha_public_ip flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities

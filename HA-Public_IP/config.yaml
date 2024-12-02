@@ -1,8 +1,8 @@
 name: "Public IP"
 description: "Have your public IP in home assistant"
 url: "https://github.com/TheDraca/HomeAssistant-Addons/tree/main/HA-Public_IP"
-version: "1.0.0"
-slug: "HA_Public_IP"
+version: "1.0.02"
+slug: "ha_public_ip"
 init: false
 homeassistant_api: true 
 arch:

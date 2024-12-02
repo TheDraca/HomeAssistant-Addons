@@ -38,7 +38,7 @@ while True:
         PublicIP = PublicIP["ip"] # Just the IP part of the IP
         
         logging.info("New IP detected, updating sensor")
-        HA_API_Response=HomeAssistant_API.UpdateSensor("HA_Public_IP","ip","Public IP Address",PublicIP)
+        HA_API_Response=HomeAssistant_API.UpdateSensor("ha_public_ip","ip","Public IP Address",PublicIP)
 
         logging.debug(HA_API_Response.status_code)
         logging.debug(HA_API_Response.text)
