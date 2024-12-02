@@ -3,3 +3,5 @@
 This is a quick add-on to show your public IP address, pulled from ipify.org, as an entity
 
 The entity called "Public IP Address" (sensor.ha_public_ip_ip)
+
+[GitHub Page](https://github.com/TheDraca/HomeAssistant-Addons/tree/main/HA-Public_IP)
