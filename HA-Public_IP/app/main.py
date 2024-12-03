@@ -28,8 +28,22 @@ logging.debug(HA_Options)
 #Read the Refresh Time provided to us by HA config, X60 to make it minutes
 TimeToSleep=int(HA_Options["Refresh time"])*60
 
-#Start with an empty last IP
-LastIP=""
+
+logging.debug("Checking if we can restore the last known IP from the HA entity")
+LastIP=HomeAssistant_API.ReadSensor("ha_public_ip","ip")
+
+if LastIP.status_code == 200:
+    logging.debug("LastIP found in HA using attemping to  restore it")
+    #Get the actual data from the HTTP request and process it as the JSON it is
+    LastIP=(json.loads(LastIP.text)) 
+
+    #Now get the state value which should hold the IP
+    LastIP=LastIP["state"]
+    logging.info("LastIP found and restored from existing HA entity: " + LastIP)
+else:
+    logging.debug("No previous IP could be obtained from HA entity, starting with nothing")
+    LastIP=""
+
 
 #Main Loop
 while True:
@@ -58,5 +72,3 @@ while True:
 
     logging.debug("Check finished waiting %s seconds before looping",str(TimeToSleep))
     time.sleep(TimeToSleep)
-
-

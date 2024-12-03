@@ -22,3 +22,15 @@ def UpdateSensor(HA_Domain,HA_SensorName,HA_SensorFriendlyName,Data):
     )
 
     return response
+
+def ReadSensor(HA_Domain,HA_SensorName):
+    FullSensorName=HA_Domain + "_" + HA_SensorName
+    response=requests.get(
+        "{0}/states/sensor.{1}".format(HA_Server,FullSensorName),
+        headers={
+            "Authorization": "Bearer {0}".format(HA_Supervisor_Token),
+            "content-type": "application/json",
+        }
+    )
+
+    return response
