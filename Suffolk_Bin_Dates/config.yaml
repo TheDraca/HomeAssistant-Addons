@@ -1,7 +1,7 @@
 name: "Suffolk Bin Dates"
 description: "Scrape your bin dates from the Suffolk (UK) council website"
 url: "https://github.com/TheDraca/HomeAssistant-Addons/tree/main/Suffolk_Bin_Dates"
-version: "1.0.00"
+version: "1.0.01"
 slug: "suffolk_bin_dates"
 init: false
 homeassistant_api: true 
