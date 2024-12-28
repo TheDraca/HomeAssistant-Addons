@@ -127,8 +127,14 @@ def BinIsTomorrow(bin_date):
 
 #Main Loop
 while True:
-    ##Scrape the dates
-    Bin_Dates=GetBins(HA_Options["Location Cookie"])
+    ##Scrape the dates, skip straight to sleeping if this fails.
+    try:
+        Bin_Dates=GetBins(HA_Options["Location Cookie"])
+    except:
+        logging.CRITICAL("ERROR Scraping website, waiting to try again later - this error will NOT resolve itself if the location cookie isn't set correctly")
+        
+        time.sleep(TimeToSleep)
+        break
 
     logging.info("Updating home assistant sensors with data")
 
