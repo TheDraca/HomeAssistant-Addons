@@ -1,3 +1,7 @@
+## 1.0.03
+
+- Fix time sleeping in logs being provided in seconds not minutes
+
 ## 1.0.02
 
 - Add random time variation for scraping

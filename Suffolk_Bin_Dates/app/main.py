@@ -144,7 +144,7 @@ while True:
         logging.CRITICAL("ERROR Scraping website, waiting to try again later - this error will NOT resolve itself if the location cookie isn't set correctly")
         
         TimeToSleep=GetTimeToSleep()
-        logging.info("Error - waiting %s minutes before looping",str(TimeToSleep))
+        logging.info("Error - waiting %s minutes before looping",str(int(TimeToSleep/60)))
         time.sleep(TimeToSleep)
         break
 
@@ -185,5 +185,5 @@ while True:
     
     TimeToSleep=GetTimeToSleep()
 
-    logging.info("Check finished waiting %s minutes before looping",str(TimeToSleep))
+    logging.info("Check finished waiting %s minutes before looping",str(int(TimeToSleep/60)))
     time.sleep(TimeToSleep)
