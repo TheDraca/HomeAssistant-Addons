@@ -34,5 +34,8 @@ Due tomorrow entities are always either "true" or "false", if you wish to setup 
 - Then do: send notification
 
 
+## Misc ##
+If wanted you can also customise your using the "User Agent" option
 
+By default the option "Time variation" is provided and set to 25 minutes, this is randomly added on top of the "Refresh time" set in the config. To disable this just set "Time variation" to 0 
 

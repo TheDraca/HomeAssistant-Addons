@@ -1,7 +1,7 @@
 name: "Suffolk Bin Dates"
 description: "Scrape your bin dates from the Suffolk (UK) council website"
 url: "https://github.com/TheDraca/HomeAssistant-Addons/tree/main/Suffolk_Bin_Dates"
-version: "1.0.01"
+version: "1.0.02"
 slug: "suffolk_bin_dates"
 init: false
 homeassistant_api: true 
@@ -15,11 +15,13 @@ options:
   Location Cookie: "Read the README on how to get this"
   Brown Bin: true
   Refresh time: 240
+  Time variation: 25
   Debug: false
   User Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0"
 schema:
   Location Cookie: str
   Brown Bin: bool
   Refresh time: int
+  Time variation: int
   Debug: bool
   User Agent: str

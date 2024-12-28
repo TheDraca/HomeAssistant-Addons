@@ -6,6 +6,7 @@ import logging
 import re
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from random import randint
 import HomeAssistant_API
 
 #Load HA options from config.yaml / user edited from the web UI
@@ -28,9 +29,18 @@ logging.info("Starting Suffolk_Bin_Dates")
 logging.debug("Loaded options from Docker's config.ymal, contents looks like:")
 logging.debug(HA_Options)
 
-#Read the Refresh Time provided to us by HA config, X60 to make it minutes
-TimeToSleep=int(HA_Options["Refresh time"])*60
+def GetTimeToSleep():
+    #Read the Refresh Time provided to us by HA config
+    TimeToSleep=int(HA_Options["Refresh time"])
 
+    #Read Time variation provided to us in HA config
+    TimeToSleepVariation=int(HA_Options["Time variation"])
+
+    #Override the variation with a random number
+    TimeToSleepVariation=int(randint(0,TimeToSleepVariation))
+
+    #X60 these added together as sleep is in seconds
+    return (TimeToSleep + TimeToSleepVariation)*60
 
 
 #Function to do the scraping
@@ -133,6 +143,8 @@ while True:
     except:
         logging.CRITICAL("ERROR Scraping website, waiting to try again later - this error will NOT resolve itself if the location cookie isn't set correctly")
         
+        TimeToSleep=GetTimeToSleep()
+        logging.info("Error - waiting %s minutes before looping",str(TimeToSleep))
         time.sleep(TimeToSleep)
         break
 
@@ -170,5 +182,8 @@ while True:
         logging.debug(HA_API_Response.status_code)
         logging.debug(HA_API_Response.text)
 
-    logging.info("Check finished waiting %s seconds before looping",str(TimeToSleep))
+    
+    TimeToSleep=GetTimeToSleep()
+
+    logging.info("Check finished waiting %s minutes before looping",str(TimeToSleep))
     time.sleep(TimeToSleep)
