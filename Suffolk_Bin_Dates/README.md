@@ -3,7 +3,7 @@
 This is a **scraper** and doesn't use an API, be careful with the refresh time.
 Also be aware it could break at anytime and as stated on this repo's readme **updates will come as an when... if at all**
 
-<small>Also if the Suffolk County Council some how comes across this... Please bring find my nearest out of 2002 and give it an API too <3 (I promise if I find out there's an API I'll update this with it <3)</small>
+<small>Also if the Suffolk County Council somehow comes across this... Please bring find my nearest out of 2002 and give it an API too <3 (I promise if I find out there's an API I'll update this with it <3)</small>
 
 [GitHub Page](https://github.com/TheDraca/HomeAssistant-Addons/tree/main/Suffolk_Bin_Dates)
 
@@ -33,9 +33,9 @@ Due tomorrow entities are always either "true" or "false", if you wish to setup 
 - And if: Entity --> State: sensor.suffolk_bin_dates_due_tomorrow_blue == true
 - Then do: send notification
 
-
 ## Misc ##
-If wanted you can also customise your using the "User Agent" option
+If wanted you can also customise the user agent string sent when making the scrape using the "User Agent" option
 
-By default the option "Time variation" is provided and set to 25 minutes, this is randomly added on top of the "Refresh time" set in the config. To disable this just set "Time variation" to 0 
+By default the option "Time variation" is provided and set to 25 minutes, this is randomly added on top of the "Refresh time" set in the config so all scrapes don’t happen at exactly the same interval. 
+To disable this just set "Time variation" to 0 
 
