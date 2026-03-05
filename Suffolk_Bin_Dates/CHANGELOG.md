@@ -1,3 +1,6 @@
+## 1.0.04
+- Provide last_update in UpdateSensor and unit/device_class if provided
+
 ## 1.0.03
 
 - Fix time sleeping in logs being provided in seconds not minutes
