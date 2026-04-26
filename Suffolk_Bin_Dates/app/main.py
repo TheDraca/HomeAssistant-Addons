@@ -62,8 +62,10 @@ def GetBins(LocationCookie):
 
     response=requests.get(url, cookies=cookies, headers=headers)
 
-    #print(response.status_code)
+    logging.debug("HTTP response code: %s",response.status_code)
     response_content = response.text.split("\n")
+
+    logging.debug("\nHTTP response content: %s \n\n",response_content)
 
     # Parse the HTML content
     soup = BeautifulSoup(response.text, 'html.parser')

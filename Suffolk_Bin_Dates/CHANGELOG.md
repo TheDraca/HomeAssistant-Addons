@@ -1,3 +1,6 @@
+## 1.0.05
+- Add some extra debug logging
+
 ## 1.0.04
 - Provide last_update in UpdateSensor and unit/device_class if provided
 
