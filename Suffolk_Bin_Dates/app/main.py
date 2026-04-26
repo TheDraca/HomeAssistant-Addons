@@ -58,14 +58,14 @@ def GetBins(LocationCookie):
     }
 
 
-    url = "https://maps.westsuffolk.gov.uk/MyWestSuffolk.aspx"
+    url = "https://maps.westsuffolk.gov.uk"
 
     response=requests.get(url, cookies=cookies, headers=headers)
 
     logging.debug("HTTP response code: %s",response.status_code)
     response_content = response.text.split("\n")
 
-    logging.debug("\nHTTP response content: %s \n\n",response_content)
+    #logging.debug("\nHTTP response content: %s \n\n",response_content)
 
     # Parse the HTML content
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -86,13 +86,21 @@ def GetBins(LocationCookie):
             panel_text = re.sub(r'\s+', ' ', panel_text)
 
             #Find the pannel with bin info in it
-            if "bin" in panel_text:
+            if "bin" in panel_text.lower():
                 if str(HA_Options["Brown Bin"]) == "True":
                     # Use regular expression to find matches for each bin, store that and the date
-                    bin_matches = re.findall(r'(Black|Blue|Brown) bin: (.*?)(?=\bBlack|Blue|Brown|\Z)', panel_text)
+                    bin_matches = re.findall(
+                        r'(Black|Blue|Brown) Bins: (.*?)(?=\bBlack|Blue|Brown|\Z)',
+                        panel_text,
+                        re.IGNORECASE
+                    )
                 else:
                     # Same as above but no brown bin :(
-                    bin_matches = re.findall(r'(Black|Blue) bin: (.*?)(?=\bBlack|Blue|\Z)', panel_text)
+                    bin_matches = re.findall(
+                        r'(Black|Blue) Bins: (.*?)(?=\bBlack|Blue|\Z)', 
+                        panel_text,
+                        re.IGNORECASE
+                    )
 
     logging.debug("Scrapped bin_matches are: %s",str(bin_matches))
 
@@ -143,7 +151,7 @@ while True:
     try:
         Bin_Dates=GetBins(HA_Options["Location Cookie"])
     except:
-        logging.CRITICAL("ERROR Scraping website, waiting to try again later - this error will NOT resolve itself if the location cookie isn't set correctly")
+        logging.critical("ERROR Scraping website, waiting to try again later - this error will NOT resolve itself if the location cookie isn't set correctly")
         
         TimeToSleep=GetTimeToSleep()
         logging.info("Error - waiting %s minutes before looping",str(int(TimeToSleep/60)))

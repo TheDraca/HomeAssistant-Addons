@@ -1,3 +1,6 @@
+## 1.0.07
+- Update url to scrape + fix regex for new wording on site + lowercase a debugging call
+
 ## 1.0.06
 - Update build_from to new FROM ghcr.io/home-assistant/base:latest
 
