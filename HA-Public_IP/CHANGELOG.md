@@ -1,3 +1,6 @@
+## 1.0.05
+- Update build_from to new FROM ghcr.io/home-assistant/base:latest
+
 ## 1.0.04
 
 - Restore LastIP from the HA entity sensor.ha_public_ip_ip if available, saving an API call on add-on start
