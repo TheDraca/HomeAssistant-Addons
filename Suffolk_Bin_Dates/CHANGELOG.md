@@ -1,3 +1,6 @@
+## 1.0.06
+- Update build_from to new FROM ghcr.io/home-assistant/base:latest
+
 ## 1.0.05
 - Add some extra debug logging
 
