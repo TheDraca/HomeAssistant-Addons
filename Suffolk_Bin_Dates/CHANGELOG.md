@@ -1,3 +1,6 @@
+## 1.1.01
+- Remove unused extra variables from UpdateState that are now expected in extra_attributes 
+
 ## 1.1.00
  ### **Breaking change**: Due tomorrow sensors have been removed in favour of "Being collected tomorrow" attribute within each bin due date update your automations
 - Fix attributes not being included in post request

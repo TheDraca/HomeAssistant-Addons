@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 HA_Server="http://supervisor/core/api"
 HA_Supervisor_Token=os.getenv('SUPERVISOR_TOKEN')
 
-def UpdateState(HA_Domain, HA_SensorName, HA_SensorFriendlyName, Data, extra_attributes=None, unit=None, device_class=None, HA_StateDomain="sensor"):
+def UpdateState(HA_Domain, HA_SensorName, HA_SensorFriendlyName, Data, extra_attributes=None, HA_StateDomain="sensor"):
     FullSensorName=HA_Domain + "_" + HA_SensorName
     attributes = {
                 "friendly_name": HA_SensorFriendlyName,
