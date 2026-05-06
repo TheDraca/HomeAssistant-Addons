@@ -1,3 +1,12 @@
+## 1.1.00
+ ### **Breaking change**: Due tomorrow sensors have been removed in favour of "Being collected tomorrow" attribute within each bin due date update your automations
+- Fix attributes not being included in post request
+- Moved all attributes to a single extra_attributes variable to send to HomeAssistant_API
+- Send due dates back as date timestamp class to HA
+- Update HomeAssistant_API to send back more than just sensors
+- Remove due_tomorrow sensors - return "being collected tomorrow" attribute instead
+- Update README with correct sensor due date names + updated instructions for bin notifications with new attribute
+
 ## 1.0.07
 - Update url to scrape + fix regex for new wording on site + lowercase a debugging call
 

@@ -6,6 +6,7 @@ import logging
 import re
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from random import randint
 import HomeAssistant_API
 
@@ -107,8 +108,8 @@ def GetBins(LocationCookie):
     return bin_matches
 
 
-#Function to decide if a bin is due tomorrow or not
-def BinIsTomorrow(bin_date):
+#Function to turn date retrived from website into a usable python datetime
+def ParseBinDate(bin_date):
     #Set the date format to use when handling datetime objects
     format_str = "%A %d %B %Y"
 
@@ -137,13 +138,7 @@ def BinIsTomorrow(bin_date):
 
     logging.debug("Converted datetime is: %s",bin_date)
 
-    if bin_date.strftime(format_str) == tomorrow_date:
-        logging.debug("BinIsTomorrow returning True")
-        return True
-    else:
-        logging.debug("BinIsTomorrow returning False")
-        return False
-
+    return bin_date
 
 #Main Loop
 while True:
@@ -164,34 +159,30 @@ while True:
     for bin_name, bin_date in Bin_Dates:
         sensor_name="due_date_" + bin_name
         sensor_friendly_name="{0} Bin Due Date".format(bin_name)
-        sensor_due_date=bin_date.strip()
+        
+        parsed_date = ParseBinDate(bin_date.strip())
 
-        logging.debug("Updating sensor for %s bin",bin_name)
-
-        HA_API_Response=HomeAssistant_API.UpdateSensor("suffolk_bin_dates",sensor_name,sensor_friendly_name,bin_date)
-
-        logging.debug(HA_API_Response.status_code)
-        logging.debug(HA_API_Response.text)
-
-
+        #Set the value to go back to HA as a time stamp for 6AM on the day of collection (6AM is when the council say bins should be out by)
+        sensor_due_date = parsed_date.replace(hour=6, tzinfo=ZoneInfo("Europe/London")).isoformat()
+    
 
         logging.debug("Determining if date for %s bin is tomorrow",bin_name)
-        
-        if BinIsTomorrow(bin_date):
-            bin_due_tomorrow="true"
+
+        #Check if the date stamp we made is tomorrow's date:
+        if parsed_date.date() == (datetime.now() + timedelta(days=1)).date():
+            bin_due_tomorrow = "Yes"
         else:
-            bin_due_tomorrow="false"
+            bin_due_tomorrow = "No"
 
-        logging.debug("Updating sensor for %s bin due tomorrow",bin_name)
+        logging.debug("Updating sensor for %s bin with timestamp for %s",bin_name,bin_date)
 
-        sensor_name="due_tomorrow_" + bin_name
-        sensor_friendly_name="{0} Bin Due Tomorrow".format(bin_name)
-
-        HA_API_Response=HomeAssistant_API.UpdateSensor("suffolk_bin_dates",sensor_name,sensor_friendly_name,bin_due_tomorrow)
+        HA_API_Response=HomeAssistant_API.UpdateState("suffolk_bin_dates", sensor_name, sensor_friendly_name, sensor_due_date, extra_attributes={
+        "being collected tomorrow": bin_due_tomorrow,
+        "device_class": "timestamp"
+        })
 
         logging.debug(HA_API_Response.status_code)
         logging.debug(HA_API_Response.text)
-
     
     TimeToSleep=GetTimeToSleep()
 

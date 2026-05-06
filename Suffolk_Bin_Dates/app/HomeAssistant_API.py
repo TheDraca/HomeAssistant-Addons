@@ -6,35 +6,35 @@ from datetime import datetime, timezone
 HA_Server="http://supervisor/core/api"
 HA_Supervisor_Token=os.getenv('SUPERVISOR_TOKEN')
 
-def UpdateSensor(HA_Domain,HA_SensorName,HA_SensorFriendlyName,Data,unit=None,
-    device_class=None):
+def UpdateState(HA_Domain, HA_SensorName, HA_SensorFriendlyName, Data, extra_attributes=None, unit=None, device_class=None, HA_StateDomain="sensor"):
     FullSensorName=HA_Domain + "_" + HA_SensorName
+    attributes = {
+                "friendly_name": HA_SensorFriendlyName,
+                "last_update": datetime.now(timezone.utc).isoformat()
+                }
+
+    if extra_attributes:
+        attributes.update(extra_attributes)
+
     response=requests.post(
-        "{0}/states/sensor.{1}".format(HA_Server,FullSensorName),
+        "{0}/states/{1}.{2}".format(HA_Server,HA_StateDomain,FullSensorName),
         headers={
             "Authorization": "Bearer {0}".format(HA_Supervisor_Token),
             "content-type": "application/json",
         },
-        data=json.dumps({
-            "state": str(Data),
-            "attributes": {
-                "friendly_name": HA_SensorFriendlyName,
-                "last_update": datetime.now(timezone.utc).isoformat()
+        data=json.dumps(
+            {
+                "state": str(Data),
+                "attributes": attributes
             }
-        }),
+        )
     )
-
-    if unit:
-        attributes["unit_of_measurement"] = unit
-    if device_class:
-        attributes["device_class"] = device_class
-
     return response
 
-def ReadSensor(HA_Domain,HA_SensorName):
+def ReadState(HA_Domain,HA_SensorName,HA_StateDomain="sensor"):
     FullSensorName=HA_Domain + "_" + HA_SensorName
     response=requests.get(
-        "{0}/states/sensor.{1}".format(HA_Server,FullSensorName),
+        "{0}/states/{1}.{2}".format(HA_Server,HA_StateDomain,FullSensorName),
         headers={
             "Authorization": "Bearer {0}".format(HA_Supervisor_Token),
             "content-type": "application/json",

@@ -19,18 +19,18 @@ In the menu that appears on the left had side select "Cookies" then the adjacent
 ## Entities provided by this addon ##
 
 Three entities will be created
-- "Blue Bin Due Date" (sensor.suffolk_bin_dates_due_blue)
-- "Black Bin Due Date" (sensor.suffolk_bin_dates_due_black)
-- "Blue Bin Due Tomorrow" (sensor.suffolk_bin_dates_due_tomorrow_blue)
-- "Black Bin Due Tomorrow" (sensor.suffolk_bin_dates_due_tomorrow_black)
+- "Blue Bin Due Date" (sensor.suffolk_bin_dates_due_date_blue)
+- "Black Bin Due Date" (sensor.suffolk_bin_dates_due_date_black)
 
-These entities will also bee created if you enable Brown Bin
-- "Brown Bin Due Date" (sensor.suffolk_bin_dates_due_brown)
-- "Brown Bin Due Tomorrow" (sensor.suffolk_bin_dates_due_tomorrow_brown)
+An additional entity will also bee created if you enable Brown Bin
+- "Brown Bin Due Date" (sensor.suffolk_bin_dates_due_date_brown)
 
-Due tomorrow entities are always either "true" or "false", if you wish to setup a reminder to notify you to put the bin out you'd do so as follows:
+*If you wish to setup a reminder to notify you to put the bin out you'd do so as follows*:
 - Trigger: Fixed time of your choosing
-- And if: Entity --> State: sensor.suffolk_bin_dates_due_tomorrow_blue == true
+- And if: Entity --> State: 
+    - Set the Entity to: Blue Bin Due Date
+    - Set the Attribute to: Being collected tomorrow
+    - Set State to: Yes
 - Then do: send notification
 
 ## Misc ##
