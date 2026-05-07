@@ -171,14 +171,17 @@ while True:
         #Check if the date stamp we made is tomorrow's date:
         if parsed_date.date() == (datetime.now() + timedelta(days=1)).date():
             bin_due_tomorrow = "Yes"
+            bin_icon = "mdi:trash-can"
         else:
             bin_due_tomorrow = "No"
+            bin_icon = "mdi:trash-can-outline"
 
         logging.debug("Updating sensor for %s bin with timestamp for %s",bin_name,bin_date)
 
         HA_API_Response=HomeAssistant_API.UpdateState("suffolk_bin_dates", sensor_name, sensor_friendly_name, sensor_due_date, extra_attributes={
         "being collected tomorrow": bin_due_tomorrow,
-        "device_class": "timestamp"
+        "device_class": "timestamp",
+        "icon": bin_icon
         })
 
         logging.debug(HA_API_Response.status_code)

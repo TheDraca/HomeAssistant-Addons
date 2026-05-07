@@ -1,3 +1,6 @@
+## 1.1.02
+- Add icons for bin sensor, with a diffrent icon for when the bin is due tomorrow
+
 ## 1.1.01
 - Remove unused extra variables from UpdateState that are now expected in extra_attributes 
 
