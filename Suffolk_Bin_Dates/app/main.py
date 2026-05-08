@@ -157,29 +157,29 @@ while True:
 
     # Loop through the matches and update each
     for bin_name, bin_date in Bin_Dates:
-        sensor_name="due_date_" + bin_name
-        sensor_friendly_name="{0} Bin Due Date".format(bin_name)
+        sensor_name="bin_collection_" + bin_name
+        sensor_friendly_name="{0} Bin Collection".format(bin_name)
         
         parsed_date = ParseBinDate(bin_date.strip())
 
         #Set the value to go back to HA as a time stamp for 6AM on the day of collection (6AM is when the council say bins should be out by)
-        sensor_due_date = parsed_date.replace(hour=6, tzinfo=ZoneInfo("Europe/London")).isoformat()
+        sensor_collection_date = parsed_date.replace(hour=6, tzinfo=ZoneInfo("Europe/London")).isoformat()
     
 
         logging.debug("Determining if date for %s bin is tomorrow",bin_name)
 
         #Check if the date stamp we made is tomorrow's date:
         if parsed_date.date() == (datetime.now() + timedelta(days=1)).date():
-            bin_due_tomorrow = "Yes"
+            bin_collection_tomorrow = "Yes"
             bin_icon = "mdi:trash-can"
         else:
-            bin_due_tomorrow = "No"
+            bin_collection_tomorrow = "No"
             bin_icon = "mdi:trash-can-outline"
 
         logging.debug("Updating sensor for %s bin with timestamp for %s",bin_name,bin_date)
 
-        HA_API_Response=HomeAssistant_API.UpdateState("suffolk_bin_dates", sensor_name, sensor_friendly_name, sensor_due_date, extra_attributes={
-        "being collected tomorrow": bin_due_tomorrow,
+        HA_API_Response=HomeAssistant_API.UpdateState("suffolk_bin_dates", sensor_name, sensor_friendly_name, sensor_collection_date, extra_attributes={
+        "being collected tomorrow": bin_collection_tomorrow,
         "device_class": "timestamp",
         "icon": bin_icon
         })

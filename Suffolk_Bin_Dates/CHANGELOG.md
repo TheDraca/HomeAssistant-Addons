@@ -1,3 +1,6 @@
+## 1.1.03
+### **Breaking change**: Sensor names and attributes have been renamed to use "collection" rather than due date - check readme for new domains
+
 ## 1.1.02
 - Add icons for bin sensor, with a diffrent icon for when the bin is due tomorrow
 
